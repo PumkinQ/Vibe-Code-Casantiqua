@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "Bambang Michael",
+    "role": "Property Developer",
+    "email": "bambang@example.com",
+    "subject": "Review Pembangunan Joglo",
+    "message": "Sebagai developer, saya butuh mitra yang punya standar kualitas tinggi dan jadwal yang pasti. Casantiqua memberikan hasil Joglo yang sangat kokoh dengan finishing premium. Ini meningkatkan nilai jual properti saya secara signifikan di pasar Canggu.",
+    "status": "approved",
+    "createdAt": "2026-07-10T19:00:00Z"
+  },
+  {
+    "id": "2",
+    "name": "Kijang Wadidaw",
+    "role": "Owner Restaurant & Lounge",
+    "email": "kijang@example.com",
+    "subject": "Sangat Puas",
+    "message": "Casantiqua berhasil mewujudkan konsep restoran kami dengan konstruksi Joglo yang megah. Kayunya sangat kuat dan pengerjaan ukirannya sangat detail. Sangat profesional dalam menangani proyek skala besar!",
+    "status": "approved",
+    "createdAt": "2026-07-10T19:01:00Z"
+  },
+  {
+    "id": "3",
+    "name": "Mursid Digidaw",
+    "role": "Villa Owner in Canggu",
+    "email": "mursid@example.com",
+    "subject": "Highly Recommend",
+    "message": "Finding a trustworthy builder in Bali can be tricky, but Casantiqua made it easy. They are true specialists. My Joglo house feels authentic, solid, and beautifully crafted. A perfect blend of tradition and professionalism.",
+    "status": "approved",
+    "createdAt": "2026-07-10T19:02:00Z"
+  },
+  {
+    "id": "1783742501694",
+    "name": "I Komang Arjuna Tudung Negara",
+    "role": "Casantiqua Client",
+    "email": "pumkinqtopia@gmail.com",
+    "subject": "Casantiqua",
+    "message": "Its veryy good like so much good",
+    "status": "approved",
+    "createdAt": "2026-07-11T04:01:41.694Z"
+  }
+]
