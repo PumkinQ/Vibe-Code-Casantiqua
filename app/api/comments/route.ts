@@ -45,7 +45,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, subject, message } = body;
+    const { name, email, subject, message, role } = body;
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     const newComment = {
       id: Date.now().toString(),
       name,
-      role: 'Client Inquiry', // Default role for submitted contact comments
+      role: role ? String(role).trim() : 'Casantiqua Client', // Use submitted role or default
       email,
       subject: subject || 'No Subject',
       message,
@@ -110,6 +110,36 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: true, comment: comments[commentIndex] });
   } catch (error) {
     console.error('Error in comments PUT route:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+// PATCH — partial field update (e.g. role/title editing by admin)
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, role } = body;
+
+    if (!id || typeof role !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid or missing fields (id, role)' },
+        { status: 400 }
+      );
+    }
+
+    const comments = readComments();
+    const commentIndex = comments.findIndex((c: any) => c.id === id);
+
+    if (commentIndex === -1) {
+      return NextResponse.json({ error: 'Comment not found' }, { status: 404 });
+    }
+
+    comments[commentIndex].role = role.trim();
+    writeComments(comments);
+
+    return NextResponse.json({ success: true, comment: comments[commentIndex] });
+  } catch (error) {
+    console.error('Error in comments PATCH route:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

@@ -46,13 +46,14 @@ export default function Hero() {
         animate="visible"
         className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 mt-20"
       >
-        <div className="relative w-[110%] h-[80%] sm:w-[90%] sm:h-[90%] md:w-[75%] md:h-[75%] max-w-[900px] aspect-[4/3] opacity-90">
+        <div className="relative w-full ml-auto h-[80%] sm:w-[90%] sm:h-[90%] md:w-[75%] md:h-[75%] max-w-[1200px] aspect-[4/3] opacity-90">
           <Image
-            src="/images/joglo_wireframe.png"
+            src="/images/Tampak_samping_Joglo_Viewport2.png"
             alt="3D Joglo Frame Model"
             fill
             priority
-            className="object-contain select-none"
+
+            className="object-cover select-none [clip-path:inset(0_0_10%_0)]"
           />
         </div>
       </motion.div>

@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function TransitionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Track scroll position of this container
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,14 +32,14 @@ export default function TransitionSection() {
         style={{ x: leftX }}
         className="absolute left-[-15%] sm:left-[-10%] md:left-[-5%] w-[45%] h-[80%] pointer-events-none z-10"
       >
-        <div className="relative w-full h-full opacity-60">
+        {/* <div className="relative w-full h-full opacity-60">
           <Image
             src="/images/joglo_wireframe.png"
             alt="Joglo Frame Left"
             fill
             className="object-contain object-left select-none scale-150 origin-left"
           />
-        </div>
+        </div> */}
       </motion.div>
 
       {/* Center Typography */}
@@ -60,14 +60,14 @@ export default function TransitionSection() {
         style={{ x: rightX }}
         className="absolute right-[-15%] sm:right-[-10%] md:right-[-5%] w-[45%] h-[80%] pointer-events-none z-10"
       >
-        <div className="relative w-full h-full opacity-60">
+        {/* <div className="relative w-full h-full opacity-60">
           <Image
             src="/images/joglo_wireframe.png"
             alt="Joglo Frame Right"
             fill
             className="object-contain object-right select-none scale-150 origin-right"
           />
-        </div>
+        </div> */}
       </motion.div>
     </section>
   );

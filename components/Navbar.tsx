@@ -111,7 +111,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
           </a>
 
           {/* Navigation Links */}
-          <div className="flex gap-8 md:gap-12">
+          <div className="flex items-center gap-8 md:gap-12">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -119,7 +119,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={(e) => handleScrollTo(e, item.id)}
-                  className="relative text-gray-800 font-medium hover:text-red-500 transition-colors duration-300 py-1 text-sm md:text-base"
+                  className="relative text-gray-800 font-medium hover:text-red-500 transition-colors duration-300 py-1.5 px-0.5 text-sm md:text-base h-fit self-center inline-block"
                 >
                   {item.name}
                   {/* Subtle active line indicator */}

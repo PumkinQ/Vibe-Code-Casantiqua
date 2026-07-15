@@ -6,6 +6,7 @@ import Hero from '@/components/Hero';
 import TransitionSection from '@/components/TransitionSection';
 import AboutSection from '@/components/AboutSection';
 import HistorySection from '@/components/HistorySection';
+import PortfolioSection from '@/components/PortfolioSection';
 import Testimonials from '@/components/Testimonials';
 import ContactForm from '@/components/ContactForm';
 
@@ -55,6 +56,7 @@ export default function Home() {
       <TransitionSection />
       <AboutSection />
       <HistorySection />
+      {/* <PortfolioSection /> */}
       <Testimonials />
       <ContactForm />
     </main>

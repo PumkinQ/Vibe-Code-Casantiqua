@@ -40,10 +40,15 @@ export default function HistorySection() {
 
   // Image data for the gallery carousel
   const images = [
-    { src: '/images/joglo_construction_1.png', alt: 'Joglo structure under construction' },
-    { src: '/images/joglo_construction_2.png', alt: 'Intricate joints of Joglo timber' },
-    { src: '/images/joglo_construction_1.png', alt: 'Joglo construction in Bali rice fields' },
-    { src: '/images/joglo_construction_2.png', alt: 'Premium teakwood Joglo assembly' },
+    { src: '/images/Artboard-1-copy.png', alt: "" },
+    { src: '/images/Artboard-1-copy-2.png', alt: "" },
+    { src: '/images/Artboard-1-copy-3.png', alt: "" },
+    { src: '/images/Artboard-1-copy-4.png', alt: "" },
+    { src: '/images/Artboard-1-copy-5.png', alt: "" },
+    { src: '/images/Artboard-1-copy-6.png', alt: "" },
+    { src: '/images/Artboard-1-copy-7.png', alt: "" },
+    { src: '/images/Artboard-1-copy-8.png', alt: "" },
+    { src: '/images/Artboard-1-copy-9.png', alt: "" },
   ];
 
   return (
@@ -102,6 +107,7 @@ export default function HistorySection() {
                 src={image.src}
                 alt={image.alt}
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, 48vw"
                 className="object-cover pointer-events-none hover:scale-105 transition-transform duration-700 ease-out"
               />

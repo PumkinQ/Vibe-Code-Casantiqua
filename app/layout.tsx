@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
+import CustomCursor from '@/components/CustomCursor';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -9,7 +10,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Casantiqua - Pembangunan Rumah Joglo Modern & Autentik',
+  title: 'Casantiqua',
   description:
     'Casantiqua adalah spesialis konstruksi dan pelestarian Rumah Joglo tradisional di Bali. Menghadirkan kemegahan klasik berpadu kualitas arsitektur modern.',
   keywords: 'Joglo, Rumah Joglo, Casantiqua, Bali, Kontraktor Joglo, Kayu Jati, Arsitektur Tradisional',
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${outfit.variable} scroll-smooth`}>
       <body className="font-sans antialiased bg-white text-gray-900 min-h-screen">
+        <CustomCursor />
         {children}
       </body>
     </html>
