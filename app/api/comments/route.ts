@@ -71,6 +71,18 @@ export async function POST(request: Request) {
     comments.push(newComment);
     writeComments(comments);
 
+    // Track engagement analytics
+    try {
+      const origin = new URL(request.url).origin;
+      await fetch(`${origin}/api/analytics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'engagement', details: `New Review (${newComment.name})` }),
+      });
+    } catch (err) {
+      console.error('Failed to log comment engagement analytics:', err);
+    }
+
     return NextResponse.json({ success: true, comment: newComment });
   } catch (error) {
     console.error('Error in comments POST route:', error);

@@ -97,6 +97,18 @@ export async function POST(request: Request) {
     leads.push(newLead);
     writeLeads(leads);
 
+    // Track engagement analytics
+    try {
+      const origin = new URL(request.url).origin;
+      await fetch(`${origin}/api/analytics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'engagement', details: `New Lead (${newLead.name})` }),
+      });
+    } catch (err) {
+      console.error('Failed to log lead engagement analytics:', err);
+    }
+
     // Auto-Responder Trigger logic
     try {
       await sendAutoReplyEmail(newLead.email, newLead.name);

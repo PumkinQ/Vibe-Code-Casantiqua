@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -8,9 +8,17 @@ export default function CustomCursor() {
   const currentCoords = useRef({ x: -100, y: -100 });
   const isHovered = useRef(false);
   const isHidden = useRef(true);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Detect touch / coarse pointer devices
+    const mediaQuery = window.matchMedia('(pointer: coarse)');
+    if (mediaQuery.matches || ('ontouchstart' in window && window.innerWidth < 768)) {
+      setIsTouchDevice(true);
+      return;
+    }
 
     const cursor = cursorRef.current;
     if (!cursor) return;
@@ -35,26 +43,30 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.getAttribute('role') === 'button'
-      ) {
+      if (!target) return;
+
+      const isInteractive = Boolean(
+        target.closest(
+          'a, button, input, textarea, select, [role="button"], .group, [data-hover], .clickable'
+        )
+      );
+
+      if (isInteractive) {
         if (!isHovered.current) {
           isHovered.current = true;
-          cursor.style.width = '24px';
-          cursor.style.height = '24px';
+          cursor.style.width = '36px';
+          cursor.style.height = '36px';
           cursor.style.backgroundColor = 'rgba(220, 38, 38, 0.15)';
-          cursor.style.boxShadow = '0 0 12px rgba(220, 38, 38, 0.3)';
+          cursor.style.borderColor = 'rgba(220, 38, 38, 0.8)';
+          cursor.style.boxShadow = '0 0 16px rgba(220, 38, 38, 0.35)';
         }
       } else {
         if (isHovered.current) {
           isHovered.current = false;
-          cursor.style.width = '10px';
-          cursor.style.height = '10px';
+          cursor.style.width = '12px';
+          cursor.style.height = '12px';
           cursor.style.backgroundColor = 'rgba(220, 38, 38, 0.4)';
+          cursor.style.borderColor = 'rgba(220, 38, 38, 0.8)';
           cursor.style.boxShadow = 'none';
         }
       }
@@ -65,15 +77,15 @@ export default function CustomCursor() {
     document.addEventListener('mouseenter', handleMouseEnter);
     window.addEventListener('mouseover', handleMouseOver);
 
-    // Initial styles
+    // Initial styles & transitions
     cursor.style.opacity = '0';
-    cursor.style.transition = 'width 0.15s ease-out, height 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out';
+    cursor.style.transition =
+      'width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease';
 
     let animationFrameId: number;
 
     const updateCursor = () => {
-      // Lerping for ultra smooth mouse trace
-      const ease = 0.15;
+      const ease = 0.18;
       currentCoords.current.x += (mouseCoords.current.x - currentCoords.current.x) * ease;
       currentCoords.current.y += (mouseCoords.current.y - currentCoords.current.y) * ease;
 
@@ -95,17 +107,19 @@ export default function CustomCursor() {
     };
   }, []);
 
+  if (isTouchDevice) return null;
+
   return (
     <div
       ref={cursorRef}
-      className="fixed pointer-events-none z-9999 rounded-full border border-red-600/80"
+      className="fixed pointer-events-none z-[9999] rounded-full border border-red-600/80 hidden md:block"
       style={{
         left: 0,
         top: 0,
-        width: '10px',
-        height: '10px',
+        width: '12px',
+        height: '12px',
         backgroundColor: 'rgba(220, 38, 38, 0.4)',
-        willChange: 'transform',
+        willChange: 'transform, width, height',
       }}
     />
   );

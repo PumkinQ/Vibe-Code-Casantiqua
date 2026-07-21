@@ -1,12 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function ContactForm() {
   const [activeTab, setActiveTab] = useState<'discuss' | 'review'>('discuss');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tracked = sessionStorage.getItem('casantiqua_scroll_tracked');
+            if (!tracked) {
+              fetch('/api/analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'scroll_depth', details: 'Footer section reached' }),
+              })
+                .then(() => sessionStorage.setItem('casantiqua_scroll_tracked', 'true'))
+                .catch((err) => console.error('Failed to log scroll depth analytics:', err));
+            }
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Form states
   const [discussData, setDiscussData] = useState({
@@ -133,19 +163,19 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-20 max-w-7xl mx-auto px-6 md:px-12 bg-white relative">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+    <section ref={sectionRef} id="contact" className="py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 bg-white relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20">
         
         {/* Left Column: Form Inquiry */}
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-8">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6 sm:mb-8">
               Interested in talking?<br />
               Let’s Do it
             </h2>
 
             {/* Sliding Toggle Switch */}
-            <div className="relative flex items-center bg-gray-100 rounded-full p-1 w-full max-w-[360px] mb-10 select-none">
+            <div className="relative flex items-center bg-gray-100 rounded-full p-1 w-full max-w-[360px] mb-8 sm:mb-10 select-none">
               <div
                 className="absolute top-1 bottom-1 rounded-full bg-gray-900 transition-all duration-300 ease-out"
                 style={{

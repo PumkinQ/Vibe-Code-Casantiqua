@@ -111,7 +111,7 @@ export default function Navbar({ activeSection }: NavbarProps) {
           </a>
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-8 md:gap-12">
+          <div className="flex items-center gap-4 sm:gap-8 md:gap-12">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -119,16 +119,18 @@ export default function Navbar({ activeSection }: NavbarProps) {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={(e) => handleScrollTo(e, item.id)}
-                  className="relative text-gray-800 font-medium hover:text-red-500 transition-colors duration-300 py-1.5 px-0.5 text-sm md:text-base h-fit self-center inline-block"
+                  className={`group relative font-medium transition-colors duration-300 py-1.5 px-0.5 text-xs sm:text-sm md:text-base h-fit self-center inline-block ${
+                    isActive ? 'text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900'
+                  }`}
                 >
                   {item.name}
-                  {/* Subtle active line indicator */}
+
+                  {/* Hover Underline: Only visible on physical mouse hover */}
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+
+                  {/* Active Section Indicator: Visually distinct subtle red dot */}
                   {isActive && (
-                    <motion.div
-                      layoutId="activeIndicator"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                   )}
                 </a>
               );

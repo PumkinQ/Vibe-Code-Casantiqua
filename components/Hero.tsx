@@ -37,23 +37,22 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen relative flex flex-col justify-between pt-32 pb-16 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden bg-white"
+      className="min-h-screen relative flex flex-col justify-between pt-24 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto overflow-hidden bg-white"
     >
       {/* Background/Center 3D Joglo wireframe */}
       <motion.div
         variants={imageVariants}
         initial="hidden"
         animate="visible"
-        className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 mt-20"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 mt-12 sm:mt-20"
       >
-        <div className="relative w-full ml-auto h-[80%] sm:w-[90%] sm:h-[90%] md:w-[75%] md:h-[75%] max-w-[1200px] aspect-[4/3] opacity-90">
+        <div className="relative w-full ml-auto h-[70%] sm:h-[85%] md:h-[75%] sm:w-[90%] md:w-[75%] max-w-[1200px] aspect-[4/3] opacity-60 sm:opacity-90">
           <Image
             src="/images/Tampak_samping_Joglo_Viewport2.png"
             alt="3D Joglo Frame Model"
             fill
             priority
-
-            className="object-cover select-none [clip-path:inset(0_0_10%_0)]"
+            className="object-contain sm:object-cover select-none [clip-path:inset(0_0_10%_0)]"
           />
         </div>
       </motion.div>
@@ -63,28 +62,28 @@ export default function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 gap-8 z-10 w-full relative h-full flex-grow items-start md:items-center mt-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 z-10 w-full relative h-full flex-grow items-start md:items-center mt-4 sm:mt-6"
       >
         {/* Left Column: Heading & Subtitle */}
         <div className="flex flex-col max-w-lg">
-          <motion.div variants={itemVariants} className="mb-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight tracking-tight">
+          <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight tracking-tight">
               Casantiqua
             </h1>
-            <p className="text-lg sm:text-xl font-bold text-gray-800 tracking-wide mt-1">
+            <p className="text-base sm:text-xl font-bold text-gray-800 tracking-wide mt-1">
               Tempat membuat
             </p>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight tracking-tight mt-1">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-gray-900 leading-tight tracking-tight mt-1">
               Joglo
             </h2>
-            <p className="text-sm sm:text-base font-medium text-gray-600 tracking-wide mt-2">
+            <p className="text-xs sm:text-base font-medium text-gray-600 tracking-wide mt-2">
               Terbaikmu
             </p>
           </motion.div>
 
           <motion.p
             variants={itemVariants}
-            className="text-gray-600 text-sm md:text-base leading-relaxed font-normal"
+            className="text-gray-600 text-xs sm:text-base leading-relaxed font-normal"
           >
             Jelajahi Portofolio kami untuk melihat proyek-proyek joglo kami sebelumnya.
             Setiap proyek adalah bukti komitmen kami terhadap kualitas dan detail.
@@ -95,9 +94,9 @@ export default function Hero() {
         <div className="flex flex-col md:items-end justify-end md:h-full md:mt-24">
           <motion.div
             variants={itemVariants}
-            className="max-w-xs md:text-right border-l-2 md:border-l-0 md:border-r-2 border-red-500 pl-4 md:pl-0 md:pr-4 py-2"
+            className="max-w-xs md:text-right border-l-2 md:border-l-0 md:border-r-2 border-red-500 pl-4 md:pl-0 md:pr-4 py-2 mt-4 md:mt-0"
           >
-            <p className="text-gray-700 text-sm sm:text-base font-medium leading-relaxed">
+            <p className="text-gray-700 text-xs sm:text-base font-medium leading-relaxed">
               ahli dalam pembangunan joglo yang elegan dan berkualitas tinggi.
             </p>
           </motion.div>

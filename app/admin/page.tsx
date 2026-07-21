@@ -12,13 +12,21 @@ import {
   Check,
   X,
   Phone,
+  BarChart3,
+  Eye,
+  MousePointerClick,
+  Send,
+  Activity,
+  TrendingUp,
+  Clock,
 } from 'lucide-react';
 import { Comment } from '@/components/Testimonials';
 import { Lead } from '@/app/api/leads/route';
+import { AnalyticsData, AnalyticsEvent } from '@/app/api/analytics/route';
 
 // ─── Top-level tab type ───────────────────────────────────────────────────────
 
-type TopTab = 'testimonials' | 'leads';
+type TopTab = 'testimonials' | 'leads' | 'analytics';
 type StatusFilter = 'all' | 'pending' | 'approved' | 'rejected';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -58,7 +66,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Top Tabs */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 overflow-x-auto max-w-full pb-1 scrollbar-none">
             <TopTabButton
               active={topTab === 'testimonials'}
               onClick={() => setTopTab('testimonials')}
@@ -71,6 +79,12 @@ export default function AdminDashboard() {
               icon={<Users className="w-4 h-4" />}
               label="Leads"
               badge
+            />
+            <TopTabButton
+              active={topTab === 'analytics'}
+              onClick={() => setTopTab('analytics')}
+              icon={<BarChart3 className="w-4 h-4" />}
+              label="Analytics"
             />
           </div>
         </div>
@@ -93,8 +107,10 @@ export default function AdminDashboard() {
       <main className="max-w-6xl mx-auto px-6 md:px-12 py-10">
         {topTab === 'testimonials' ? (
           <TestimonialsPanel onMsg={setGlobalMsg} />
-        ) : (
+        ) : topTab === 'leads' ? (
           <LeadsPanel onMsg={setGlobalMsg} />
+        ) : (
+          <AnalyticsPanel onMsg={setGlobalMsg} />
         )}
       </main>
     </div>
@@ -735,6 +751,227 @@ function EmptyState({ label }: { label: string }) {
   return (
     <div className="bg-white rounded-3xl border border-gray-100 py-16 text-center shadow-sm">
       <p className="text-gray-400 font-semibold">{label}</p>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ANALYTICS PANEL
+// ─────────────────────────────────────────────────────────────────────────────
+
+function AnalyticsPanel({
+  onMsg,
+}: {
+  onMsg: (m: { type: 'success' | 'error'; text: string }) => void;
+}) {
+  const [data, setData] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAnalytics = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/analytics');
+      if (res.ok) {
+        setData(await res.json());
+      } else {
+        onMsg({ type: 'error', text: 'Failed to load analytics data.' });
+      }
+    } catch {
+      onMsg({ type: 'error', text: 'Connection error while fetching analytics.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, []);
+
+  if (loading && !data) {
+    return <LoadingState label="Loading traffic & behavior analytics..." />;
+  }
+
+  const pageViews = data?.pageViews || 0;
+  const scrollDepth = data?.scrollDepth || 0;
+  const engagements = data?.engagements || 0;
+
+  // Percentage calculations
+  const scrollRate = pageViews > 0 ? ((scrollDepth / pageViews) * 100).toFixed(1) : '0';
+  const conversionRate = pageViews > 0 ? ((engagements / pageViews) * 100).toFixed(1) : '0';
+
+  return (
+    <div className="flex flex-col gap-8">
+      {/* Sub-header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
+            User Engagement Analytics
+          </h2>
+          <p className="text-sm text-gray-400 mt-0.5">
+            Real-time tracking of site visits, footer scroll depth, and form conversion actions.
+          </p>
+        </div>
+        <button
+          onClick={fetchAnalytics}
+          disabled={loading}
+          className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-gray-700 text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh Data
+        </button>
+      </div>
+
+      {/* Primary 3 Stat Widgets */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Stat 1: Total Page Views */}
+        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Eye className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">
+              Traffic
+            </span>
+          </div>
+          <div>
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">
+              Total Page Views
+            </span>
+            <div className="text-4xl font-black text-gray-900 tracking-tight mb-2">
+              {pageViews.toLocaleString()}
+            </div>
+            <p className="text-xs text-gray-500 font-medium">
+              Unique sessions and visits recorded across site routes.
+            </p>
+          </div>
+        </div>
+
+        {/* Stat 2: Scroll Depth */}
+        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <MousePointerClick className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
+              {scrollRate}% Depth
+            </span>
+          </div>
+          <div>
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">
+              Deep Scroll Engagement
+            </span>
+            <div className="text-4xl font-black text-gray-900 tracking-tight mb-2">
+              {scrollDepth.toLocaleString()}
+            </div>
+            <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-2">
+              <div
+                className="bg-purple-500 h-full rounded-full transition-all duration-500"
+                style={{ width: `${Math.min(Number(scrollRate), 100)}%` }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 font-medium">
+              Users who scrolled all the way to the footer content.
+            </p>
+          </div>
+        </div>
+
+        {/* Stat 3: Total Form Engagements */}
+        <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Send className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
+              {conversionRate}% Conversion
+            </span>
+          </div>
+          <div>
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">
+              Total Form Submissions
+            </span>
+            <div className="text-4xl font-black text-gray-900 tracking-tight mb-2">
+              {engagements.toLocaleString()}
+            </div>
+            <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-2">
+              <div
+                className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                style={{ width: `${Math.min(Number(conversionRate), 100)}%` }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 font-medium">
+              Completed Discuss Project or Leave a Review submissions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Activity Event Stream Log */}
+      <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h3 className="text-lg font-black text-gray-900">Recent Tracking Stream</h3>
+            <p className="text-xs text-gray-400">Latest recorded user interaction events</p>
+          </div>
+          <span className="text-xs text-gray-400 font-medium">
+            Showing last {data?.events?.length || 0} events
+          </span>
+        </div>
+
+        {!data?.events || data.events.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-8">No recorded activity events yet.</p>
+        ) : (
+          <div className="divide-y divide-gray-100 max-h-[400px] overflow-y-auto pr-2 scrollbar-none">
+            {data.events.map((evt) => (
+              <div key={evt.id} className="py-3 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <EventBadge type={evt.type} />
+                  <div>
+                    <p className="text-sm font-bold text-gray-800">
+                      {evt.type === 'page_view'
+                        ? 'Page View'
+                        : evt.type === 'scroll_depth'
+                        ? 'Full Scroll to Footer'
+                        : 'Form Engagement'}
+                    </p>
+                    {evt.details && (
+                      <p className="text-xs text-gray-400 font-medium">{evt.details}</p>
+                    )}
+                  </div>
+                </div>
+                <span className="text-xs text-gray-400 font-mono flex-shrink-0">
+                  {new Date(evt.timestamp).toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                  })}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EventBadge({ type }: { type: 'page_view' | 'scroll_depth' | 'engagement' }) {
+  if (type === 'page_view') {
+    return (
+      <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+        <Eye className="w-4 h-4" />
+      </div>
+    );
+  }
+  if (type === 'scroll_depth') {
+    return (
+      <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+        <MousePointerClick className="w-4 h-4" />
+      </div>
+    );
+  }
+  return (
+    <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+      <Send className="w-4 h-4" />
     </div>
   );
 }

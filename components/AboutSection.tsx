@@ -73,9 +73,9 @@ export default function AboutSection() {
       id="about"
       className="relative w-full bg-white overflow-hidden"
     >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16 lg:py-24">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-12 sm:py-16 lg:py-24">
         {/* ─── 2-column grid: left = text + Joglo anchor | right = cards ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-14 items-start">
 
           {/* ══════════════════════════════════════════════════════════════════
               LEFT COLUMN — bold heading + description (top), Joglo model (bottom)
@@ -90,10 +90,10 @@ export default function AboutSection() {
               variants={textVariants}
               className="relative z-10 flex flex-col max-w-[520px]"
             >
-              <h2 className="text-[2.8rem] sm:text-5xl lg:text-[3.4rem] font-black text-gray-900 leading-[1.05] mb-5 tracking-tight">
+              <h2 className="text-3xl sm:text-5xl lg:text-[3.4rem] font-black text-gray-900 leading-[1.05] mb-4 sm:mb-5 tracking-tight">
                 Casantiqua
               </h2>
-              <p className="text-gray-600 text-sm sm:text-[15px] leading-[1.8] font-normal">
+              <p className="text-gray-600 text-xs sm:text-[15px] leading-[1.8] font-normal">
                 adalah perusahaan jasa konstruksi spesialis yang mendedikasikan diri pada pelestarian
                 dan pembangunan Rumah Joglo autentik. Nama kami, yang memadukan unsur hunian (Casa) dan
                 nilai klasik (Antiqua), mencerminkan misi kami dalam menghadirkan kemegahan arsitektur
@@ -101,18 +101,13 @@ export default function AboutSection() {
               </p>
             </motion.div>
 
-            {/* Large free-floating Joglo — anchors the bottom-left, bleeds past the container */}
+            {/* Large free-floating Joglo — anchors the bottom-left */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-60px' }}
               variants={jogloVariants}
-              className="relative pointer-events-none select-none mt-6"
-              style={{
-                marginLeft: 'clamp(-80px, -6vw, -32px)',
-                width: 'clamp(420px, 58vw, 820px)',
-                height: 'clamp(360px, 46vw, 60px)',
-              }}
+              className="relative pointer-events-none select-none mt-4 sm:mt-6 w-full sm:w-[110%] lg:w-[120%] h-[240px] sm:h-[360px] lg:h-[480px] sm:-ml-8 lg:-ml-12"
             >
               <Image
                 src="/images/Tampak_samping_Joglo_Viewport.png"

@@ -23,6 +23,12 @@ body {
   }
 }
 
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
 /* Custom Scrollbar Hiding Utility */
 @utility scrollbar-none {
   -ms-overflow-style: none;  /* IE and Edge */

@@ -1,0 +1,46 @@
+{
+  "pageViews": 2,
+  "scrollDepth": 2,
+  "engagements": 0,
+  "lastUpdated": "2026-07-21T17:58:42.200Z",
+  "dailyStats": [
+    {
+      "date": "2026-07-20",
+      "pageViews": 1,
+      "scrollDepth": 1,
+      "engagements": 0
+    },
+    {
+      "date": "2026-07-21",
+      "pageViews": 1,
+      "scrollDepth": 1,
+      "engagements": 0
+    }
+  ],
+  "events": [
+    {
+      "id": "1784656722200mkwk",
+      "type": "scroll_depth",
+      "details": "Footer section reached",
+      "timestamp": "2026-07-21T17:58:42.200Z"
+    },
+    {
+      "id": "1784656712224bybt",
+      "type": "page_view",
+      "details": "/",
+      "timestamp": "2026-07-21T17:58:32.224Z"
+    },
+    {
+      "id": "1784569777337ow5q",
+      "type": "scroll_depth",
+      "details": "Footer section reached",
+      "timestamp": "2026-07-20T17:49:37.337Z"
+    },
+    {
+      "id": "17845695847548yvw",
+      "type": "page_view",
+      "details": "/admin",
+      "timestamp": "2026-07-20T17:46:24.754Z"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import './globals.css';
 import CustomCursor from '@/components/CustomCursor';
+import AnalyticsTracker from '@/components/AnalyticsTracker';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${outfit.variable} scroll-smooth`}>
       <body className="font-sans antialiased bg-white text-gray-900 min-h-screen">
+        <AnalyticsTracker />
         <CustomCursor />
         {children}
       </body>
